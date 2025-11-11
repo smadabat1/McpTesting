@@ -28,9 +28,8 @@ agent = create_agent(
     system_prompt=sytemprompt.prompt
 )
 
-
 try: 
-    result = agent.invoke({"messages": [{"role": "user", "content": "What's the weather in San Francisco?"}]})
+    result = agent.invoke({"messages": [{"role": "user", "content": "search and let me know if this query is correct?"}]})
     print(result)
 
 except RateLimitError:
