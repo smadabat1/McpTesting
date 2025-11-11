@@ -17,7 +17,7 @@ prompt = ChatPromptTemplate([
 pipeline = prompt | llm
 
 try: 
-    response = pipeline.invoke()
+    response = pipeline.invoke({})
     text = response.content
     clean_text = text.encode('utf-8').decode('unicode_escape')
     print(clean_text)
