@@ -38,6 +38,8 @@ agent = create_agent(
 async def main():
     try: 
         result = await agent.ainvoke({"messages": [{"role": "user", "content": "search and let me know the count of the devices connected to nautobot?"}]})
+        print("Result", result.content)
+        print("\n\n")
         print(result)
 
     except RateLimitError:
