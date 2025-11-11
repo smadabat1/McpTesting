@@ -16,6 +16,7 @@ def get_devices_count() -> int:
         This function will return the connected devices to thbe nautobot. 
     """
     devices = nautoclient.nautobot.dcim.devices.all()
+    print("length of the devices - ", len(devices))
     return len(devices)
 
 
