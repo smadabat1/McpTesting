@@ -1,5 +1,6 @@
 from fastmcp import FastMCP
 import nautoclient
+from typing import List
 
 mcp = FastMCP("My MCP Server")
 
@@ -9,6 +10,22 @@ def greet(name: str) -> str:
         This function can be used to greet the user with the provided name. 
     """
     return f"Hello, {name}!"
+
+@mcp.tool
+def get_devices_names() -> List[str]:
+    """
+        This function will return the connected devices names. 
+    """
+    names = []
+    devices = nautoclient.nautobot.dcim.devices.all()
+    if(len(devices)) > 10:
+        #return the names of the top 10 devices. 
+        for i in range(0, 10):
+            names.append(devices[i].name)
+    else:
+        for d in devices:
+            names.append(d.name)
+    return names
 
 @mcp.tool
 def get_devices_count() -> int:
