@@ -23,9 +23,10 @@ prompt = ChatPromptTemplate([
 @tool
 async def get_connected_devices_count(query: str) -> str:
     """This function will return the number of the connected devices to the nautobot."""
-    result = await client.call_tool("get_devices_count")
+    async with client:
+        result = await client.call_tool("get_devices_count")
         
-    return result
+        return result
 
 
 agent = create_agent(
