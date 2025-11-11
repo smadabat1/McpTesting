@@ -42,11 +42,11 @@ async def main():
             messages = result.get("messages", [])
             if messages:
                 final_message = messages[-1]
-                print("🧠 Final Response:", final_message.content)
+                print("Final Response:", final_message.content)
             else:
                 print("No messages in result:", result)
         else:
-            print("🧠 Final Response:", result.content)
+            print("Final Response:", result.content)
         print("\n\n")
         print(result)
 
