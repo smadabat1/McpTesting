@@ -1,4 +1,6 @@
 from langchain_openai import ChatOpenAI
+from langchain.agents import create_agent
+from langchain.tools import tool
 from langchain_core.prompts.chat import ChatPromptTemplate
 from prompts import sytemprompt
 from openai import RateLimitError
@@ -11,10 +13,21 @@ llm = ChatOpenAI(
 
 prompt = ChatPromptTemplate([
     ("system", sytemprompt.prompt),
-    ("user", "Explain what LangChain is in one line.")
+    ("user", "Search and Explain what LangChain is in one line")
 ])
 
-pipeline = prompt | llm
+@tool
+def search(query: str) -> str:
+    """Search for information."""
+    return f"Results for: {query}"
+
+
+agent = create_agent(
+    model=llm,
+    tools=[search]
+)
+
+pipeline = prompt | agent
 
 try: 
     response = pipeline.invoke({})
