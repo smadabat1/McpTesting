@@ -24,16 +24,16 @@ def search(query: str) -> str:
 
 agent = create_agent(
     model=llm,
-    tools=[search]
+    tools=[search],
+    system_prompt=sytemprompt.prompt
 )
 
-pipeline = prompt | agent
 
 try: 
-    response = pipeline.invoke({})
-    text = response.content
-    clean_text = text.encode('utf-8').decode('unicode_escape')
-    print(clean_text)
+    result = agent.invoke({
+            {"messages": [{"role": "user", "content": "What's the weather in San Francisco?"}]}
+    })
+    print(result)
 
 except RateLimitError:
     print("No Tokens/Too much load on the OpenAPI")
