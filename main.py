@@ -4,6 +4,9 @@ from langchain.tools import tool
 from langchain_core.prompts.chat import ChatPromptTemplate
 from prompts import sytemprompt
 from openai import RateLimitError
+from fastmcp import Client
+
+client = Client("http://0.0.0.0:8085/mcp")
 
 llm = ChatOpenAI(
     model="local-llama",
@@ -17,14 +20,16 @@ prompt = ChatPromptTemplate([
 ])
 
 @tool
-def search(query: str) -> str:
-    """Search for information."""
-    return f"Results for: {query}"
+async def get_connected_devices_count(query: str) -> str:
+    """This function will return the number of the connected devices to the nautobot."""
+    result = await client.call_tool("get_devices_count")
+        
+    return result
 
 
 agent = create_agent(
     model=llm,
-    tools=[search],
+    tools=[get_connected_devices_count],
     system_prompt=sytemprompt.prompt
 )
 
