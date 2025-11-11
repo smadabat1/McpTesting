@@ -38,7 +38,15 @@ agent = create_agent(
 async def main():
     try: 
         result = await agent.ainvoke({"messages": [{"role": "user", "content": "search and let me know the count of the devices connected to nautobot?"}]})
-        print("Result", result.content)
+        if isinstance(result, dict):
+            messages = result.get("messages", [])
+            if messages:
+                final_message = messages[-1]
+                print("🧠 Final Response:", final_message.content)
+            else:
+                print("No messages in result:", result)
+        else:
+            print("🧠 Final Response:", result.content)
         print("\n\n")
         print(result)
 
