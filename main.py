@@ -34,7 +34,7 @@ agent = create_agent(
 )
 
 try: 
-    result = agent.invoke({"messages": [{"role": "user", "content": "search and let me know if this query is correct?"}]})
+    result = agent.invoke({"messages": [{"role": "user", "content": "search and let me know the count of the devices connected to nautobot?"}]})
     print(result)
 
 except RateLimitError:
