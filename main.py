@@ -1,6 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from langchain.tools import tool
+import asyncio 
 from langchain_core.prompts.chat import ChatPromptTemplate
 from prompts import sytemprompt
 from openai import RateLimitError
@@ -20,9 +21,9 @@ prompt = ChatPromptTemplate([
 ])
 
 @tool
-def get_connected_devices_count(query: str) -> str:
+async def get_connected_devices_count(query: str) -> str:
     """This function will return the number of the connected devices to the nautobot."""
-    result = client.call_tool("get_devices_count")
+    result = await client.call_tool("get_devices_count")
         
     return result
 
@@ -33,11 +34,14 @@ agent = create_agent(
     system_prompt=sytemprompt.prompt
 )
 
-try: 
-    result = agent.invoke({"messages": [{"role": "user", "content": "search and let me know the count of the devices connected to nautobot?"}]})
-    print(result)
+async def main():
+    try: 
+        result = await agent.ainvoke({"messages": [{"role": "user", "content": "search and let me know the count of the devices connected to nautobot?"}]})
+        print(result)
 
-except RateLimitError:
-    print("No Tokens/Too much load on the OpenAPI")
-except Exception as e:
-    print(e)
+    except RateLimitError:
+        print("No Tokens/Too much load on the OpenAPI")
+    except Exception as e:
+        print(e)
+
+asyncio.run(main())
