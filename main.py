@@ -30,9 +30,7 @@ agent = create_agent(
 
 
 try: 
-    result = agent.invoke({
-            {"messages": [{"role": "user", "content": "What's the weather in San Francisco?"}]}
-    })
+    result = agent.invoke({"messages": [{"role": "user", "content": "What's the weather in San Francisco?"}]})
     print(result)
 
 except RateLimitError:
